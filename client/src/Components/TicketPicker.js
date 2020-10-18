@@ -15,7 +15,7 @@ class TicketPicker extends Component{
     render(){
     
     return (<>
-    <Col sm={2} className="justify-content-md-center ">
+    <Col sm={4} className="justify-content-md-center ">
     <Alert variant='info'>
     <Form method="POST" onSubmit={(event)=>{event.preventDefault();this.props.newTicket(this.state.selected)}}>
         <Row className="justify-content-md-center ">
