@@ -18,4 +18,16 @@ app.get('/api/service_types', (req, res) => {
        })
 })
 
+app.get('/api/service_types/:id', (req, res) => {
+    serviceTypesDao.getServiceType(req.params.id)
+        .then((service_types) => {
+            res.json(service_types)
+        })
+        .catch((err) => {
+            res.status(500).json({
+                errors: [{'msg': err}],
+             })
+       })
+})
+
 app.listen(PORT, ()=>console.log(`Server running on http://localhost:${PORT}/`));
