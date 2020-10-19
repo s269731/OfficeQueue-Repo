@@ -10,7 +10,12 @@ class TicketPicker extends Component{
         
     }
     changeCat(cat){
-        this.setState({selected:cat});
+        if(cat!=-1){
+            this.setState({selected:cat});
+        }
+        else{
+            this.setState({selected:null});
+        }
     }
     render(){
     
@@ -22,6 +27,7 @@ class TicketPicker extends Component{
             <Form.Group controlId="exampleForm.SelectCustom">
                  <Form.Label>Select a category and pick a ticket</Form.Label>
                     <Form.Control as="select" custom>
+                    <option key='-1' value="-1" onClick={(ev)=>this.changeCat(ev.target.value)}>Select a category</option>
       {this.props.options.map((option,index)=>{return(<option key={index} value={index} onClick={(ev)=>this.changeCat(ev.target.value)}>{option.name}</option>);})}
                     </Form.Control>
             </Form.Group>
