@@ -6,8 +6,8 @@ const RowItem=(props)=>{
     let {log}=props;
    return(
         <tr>
-            <td>{log.number}</td>
-            <td>{log.counter}</td>
+            <td>{log.counterName}</td>
+            <td>{log.currentTicketId.id}</td>
         </tr>);
       
 }
@@ -18,15 +18,15 @@ let{logs}=props;
     return(<Container fluid>
         <Row className="justify-content-md-center ">
         <Col sm={5}>    
-                <Table striped borderless hover size="sm" >
-                    <thead className="tableHeader">
+                <Table striped bordered hover  size="sm" justify-content-md-center >
+                    <thead className="tableHeader justify-content-md-center">
                         <tr>
-                        <th>TICKET</th>
                         <th>COUNTER</th>
+                        <th>TICKET</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {logs.map((log) => <RowItem  key = {log.number} log={log} />)}
+                        {logs.map((log) => <RowItem  key = {log.counterId} log={log} />)}
                     </tbody>
                </Table>
         </Col>

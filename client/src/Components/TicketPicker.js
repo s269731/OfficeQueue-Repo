@@ -10,7 +10,7 @@ class TicketPicker extends Component{
         
     }
     changeCat(cat){
-        if(cat!=-1){
+        if(cat!==-1){
             this.setState({selected:cat});
         }
         else{
