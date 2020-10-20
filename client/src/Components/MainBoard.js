@@ -18,8 +18,8 @@ let{logs}=props;
     return(<Container fluid>
         <Row className="justify-content-md-center ">
         <Col sm={5}>    
-                <Table striped bordered hover  size="sm" justify-content-md-center >
-                    <thead className="tableHeader justify-content-md-center">
+                <Table striped bordered hover  size="sm"  >
+                    <thead className="tableHeader">
                         <tr>
                         <th>COUNTER</th>
                         <th>TICKET</th>
