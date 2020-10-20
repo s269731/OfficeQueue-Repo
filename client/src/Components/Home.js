@@ -16,9 +16,9 @@ class Home extends Component{
       index=parseInt(index)
       API.requireNewTicket(index+1).then((res)=>{
         console.log(res)
-        let num=res.ticketId;
-        //let Tnumber=this.state.typesOfServices[res.serviceTypeId-1].sign+num.toString();
-        let Tnumber=num
+        let num=res.ticketNumber;
+        let Tnumber=this.state.typesOfServices[res.serviceTypeId-1].sign+num.toString();
+     
         this.setState({newTicket:Tnumber,newTicketWaitingTime:res.waitingTime,serverErr:false});
 
       }).catch((err)=>{
@@ -31,8 +31,22 @@ class Home extends Component{
    updateMainScreen(){
      
       Promise.all(this.state.counters.map((c)=>{return API.getLogs(c.id)})).then((res)=>{
-        this.setState({logs:res,serverErr:false})
-      }).catch((err)=>{this.setState({serverErr:true})})
+        console.log(res)
+        let logs=res.map((l)=>{
+          
+          let curTic=" "
+          if(l.currentTicketNumber && l.serviceTypeId){
+            
+            curTic=this.state.typesOfServices[l.serviceTypeId-1].sign+l.currentTicketNumber.toString()
+          }
+          return ({
+          counterName:l.counterName,
+          currentTicketNumber:curTic
+        })})
+        console.log(logs)
+        this.setState({logs:logs,serverErr:false})
+      }).catch((err)=>{console.log(err)
+        this.setState({serverErr:true})})
       
    }
 

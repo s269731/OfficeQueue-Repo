@@ -21,7 +21,7 @@ exports.getCounter = function(id) {
         if(serviceTypes.length>0) {
             sql = "SELECT * FROM counters WHERE id = ?"
             const counter = db.prepare(sql).get(id)
-            sql = "SELECT id, ticket_number FROM tickets WHERE counter_id = ?"
+            sql = "SELECT id, ticket_number,service_type_id FROM tickets WHERE counter_id = ?"
             const row = db.prepare(sql).get(id)
             if(row!==undefined) {
                 resolve({
@@ -29,11 +29,17 @@ exports.getCounter = function(id) {
                     'counterName': counter.name,
                     'currentTicketId': row.id,
                     'currentTicketNumber': row.ticket_number,
-                    'serviceTypes': serviceTypes
+                    'serviceTypeId': row.service_type_id
                 })
             }
             else
-                reject("")
+            resolve({
+                'counterId': counter.id,
+                'counterName': counter.name,
+                'currentTicketId': null,
+                'currentTicketNumber': null,
+                'serviceTypeId': null
+            })
         }
         else{
             reject("No Counter with the specified ID")

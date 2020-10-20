@@ -7,7 +7,7 @@ const RowItem=(props)=>{
    return(
         <tr>
             <td>{log.counterName}</td>
-            <td>{log.currentTicketId.id}</td>
+            <td>{log.currentTicketNumber}</td>
         </tr>);
       
 }
