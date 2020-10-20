@@ -16,7 +16,7 @@ const RowItem=(props)=>{
 const MainBoard=(props)=>{
 let{logs,queues}=props;
     return(<Container fluid>
-        <Alert variant="info">
+        
         <Row className="justify-content-md-center ">
         <Col sm={5}>    
                 <Table striped bordered hover  size="sm"  >
@@ -33,9 +33,9 @@ let{logs,queues}=props;
         </Col>
         </Row>
         <Row className="justify-content-md-center ">
-            {queues.map((q)=>{return <Alert key={q.serviceName} variant="info">{q.serviceName}: {q.length} people in line</Alert>})}
+            {queues.map((q)=>{return <><Col sm={2}><Alert key={q.serviceName} variant="info">{q.serviceName}: {q.length} people in line</Alert></Col></>})}
         </Row>
-        </Alert>
+       
         </Container>);
 }
 
