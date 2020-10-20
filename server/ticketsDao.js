@@ -62,15 +62,15 @@ exports.addTicket = function(serviceTypeId) {
             reject("There was an issue computing number of ticket of the same type that should be served")
         }
         else {
-            const row = db.prepare("select max(counter) as cnt from tickets where service_type_id = ?").get(serviceTypeId)
-            const counter = row.cnt + 1
-            const sql = "INSERT INTO tickets(service_type_id, waiting_time, counter) VALUES(?, ?, ?)"
+            const row = db.prepare("select max(ticket_number) as tnum from tickets where service_type_id = ?").get(serviceTypeId)
+            const ticketNumber = row.tnum + 1
+            const sql = "INSERT INTO tickets(service_type_id, waiting_time, ticket_number) VALUES(?, ?, ?)"
             const stmt = db.prepare(sql)
-            const res = stmt.run([serviceTypeId, waitingTime, counter])
+            const res = stmt.run([serviceTypeId, waitingTime, ticketNumber])
             if(res===undefined)
                 reject("There was an issue retrieving the ticket")
             else
-                resolve({"ticketId": res.lastInsertRowid, "counter":counter, "serviceTypeId": serviceTypeId, "waitingTime": waitingTime})
+                resolve({"ticketId": res.lastInsertRowid, "ticketNumber":ticketNumber, "serviceTypeId": serviceTypeId, "waitingTime": waitingTime})
 
         }
 

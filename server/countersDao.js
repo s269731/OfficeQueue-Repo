@@ -21,13 +21,14 @@ exports.getCounter = function(id) {
         if(serviceTypes.length>0) {
             sql = "SELECT * FROM counters WHERE id = ?"
             const counter = db.prepare(sql).get(id)
-            sql = "SELECT id FROM tickets WHERE counter_id = ?"
-            const ticket = db.prepare(sql).get(id)
-            if(ticket!==undefined) {
+            sql = "SELECT id, ticket_number FROM tickets WHERE counter_id = ?"
+            const row = db.prepare(sql).get(id)
+            if(row!==undefined) {
                 resolve({
                     'counterId': counter.id,
                     'counterName': counter.name,
-                    'currentTicketId': ticket,
+                    'currentTicketId': row.id,
+                    'currentTicketNumber': row.ticket_number,
                     'serviceTypes': serviceTypes
                 })
             }
