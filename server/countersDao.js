@@ -60,7 +60,7 @@ exports.getNewTicketToServe = function(counterId) {
         const rows = db.prepare(sql).all(counterId)[0]
 
         if(!rows)
-            resolve({"ticketId": null, "serviceTypeId": rows.service_type_id})
+        resolve({"ticketId":null})
 
         sql = "UPDATE tickets SET counter_id = ? WHERE id = ?"
         db.prepare(sql).run([counterId, rows.id])

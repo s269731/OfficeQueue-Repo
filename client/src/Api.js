@@ -70,5 +70,33 @@ async function getQueue(queueId){
     }
 }
 
-const API={getAllServices,requireNewTicket,getLogs,getCounters,getQueue};
+async function getCurrentTicketId(id){
+    let url="/counters/"+id;
+    const response=await fetch(baseURL+url);
+    const servicesJson=await response.json();
+    if(response.ok){
+        return servicesJson.currentTicketId
+    }
+    else{
+        let err={status:response.status, errObj:servicesJson};
+        throw err;
+    }
+}
+
+async function getNextTicketId(id){
+    let url="/counters"
+    const response= await fetch(baseURL + url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({counterId: id}),
+    });
+    const ticketJson=await response.json();
+    if(response.ok){
+        return (ticketJson)
+    }
+}
+
+const API={getAllServices,requireNewTicket,getLogs,getCounters,getQueue, getCurrentTicketId, getNextTicketId};
 export default API;
