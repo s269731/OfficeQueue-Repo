@@ -1,5 +1,5 @@
 import React from 'react'
-import {Table,Container,Col,Row} from 'react-bootstrap';
+import {Table,Container,Col,Row,Alert} from 'react-bootstrap';
 
 //funzione per renderizzare riga della tabella
 const RowItem=(props)=>{
@@ -14,8 +14,9 @@ const RowItem=(props)=>{
 
 //funzione per renderizzare la tabella delle auto
 const MainBoard=(props)=>{
-let{logs}=props;
+let{logs,queues}=props;
     return(<Container fluid>
+        <Alert variant="info">
         <Row className="justify-content-md-center ">
         <Col sm={5}>    
                 <Table striped bordered hover  size="sm"  >
@@ -31,6 +32,10 @@ let{logs}=props;
                </Table>
         </Col>
         </Row>
+        <Row className="justify-content-md-center ">
+            {queues.map((q)=>{return <Alert key={q.serviceName} variant="info">{q.serviceName}: {q.length} people in line</Alert>})}
+        </Row>
+        </Alert>
         </Container>);
 }
 

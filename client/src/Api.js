@@ -54,6 +54,21 @@ async function getLogs(counterId){
         throw err;
     }
 }
+async function getQueue(queueId){
+    let url="/queue/"+queueId.toString();
+    console.log(url)
+    const response=await fetch(baseURL+url);
+    const queueJson=await response.json();
+    console.log(queueJson)
+    if(response.ok){
+        console.log(queueJson)
+        return queueJson
+    }
+    else{
+        let err={status:response.status, errObj:queueJson};
+        throw err;
+    }
+}
 
-const API={getAllServices,requireNewTicket,getLogs,getCounters};
+const API={getAllServices,requireNewTicket,getLogs,getCounters,getQueue};
 export default API;

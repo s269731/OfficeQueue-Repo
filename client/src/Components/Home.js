@@ -9,7 +9,7 @@ import API from '../Api.js';
 class Home extends Component{
     constructor(props){
         super(props);
-        this.state={isLoading:true,logs:[]};
+        this.state={isLoading:true,logs:[],queues:[],typesOfServices:[]};
         this.createTicket=this.createTicket.bind(this);
     }
     createTicket(index){
@@ -20,6 +20,7 @@ class Home extends Component{
         let Tnumber=this.state.typesOfServices[res.serviceTypeId-1].sign+num.toString();
      
         this.setState({newTicket:Tnumber,newTicketWaitingTime:res.waitingTime,serverErr:false});
+        this.updateMainScreen()
 
       }).catch((err)=>{
           this.setState({serverErr:true,ewTicket:undefined})
@@ -33,10 +34,8 @@ class Home extends Component{
       Promise.all(this.state.counters.map((c)=>{return API.getLogs(c.id)})).then((res)=>{
         console.log(res)
         let logs=res.map((l)=>{
-          
           let curTic=" "
           if(l.currentTicketNumber && l.serviceTypeId){
-            
             curTic=this.state.typesOfServices[l.serviceTypeId-1].sign+l.currentTicketNumber.toString()
           }
           return ({
@@ -47,22 +46,29 @@ class Home extends Component{
         this.setState({logs:logs,serverErr:false})
       }).catch((err)=>{console.log(err)
         this.setState({serverErr:true})})
+
+      Promise.all(this.state.typesOfServices.map((c)=>{return API.getQueue(c.id)})).then((res)=>{
+        res=res.map((r)=>{console.log(r);return ({serviceName:this.state.typesOfServices[r.serviceTypeId-1].name,serviceTypeId:r.serviceTypeId,length:r.queueLength})})
+        this.setState({queues:res,serverErr:false})
+      }).catch((err)=>{console.log(err)
+        this.setState({serverErr:true})})
       
    }
 
    componentDidMount(){   
     API.getAllServices().then((services)=>{   
       this.setState({typesOfServices:services,serverErr:false,isLoading:false});
+      API.getCounters().then((counters)=>{
+        this.setState({counters:counters})
+        this.updateMainScreen()
+      }).catch((err)=>{
+        this.setState({serverErr:true});
+      });
     }).catch((err)=>{
       this.setState({serverErr:true});
     });
 
-    API.getCounters().then((counters)=>{
-      this.setState({counters:counters})
-      this.updateMainScreen()
-    }).catch((err)=>{
-      this.setState({serverErr:true});
-    });
+   
   }
     render(){
         return(<>
@@ -75,7 +81,7 @@ class Home extends Component{
               </svg> Refresh the Main Screen </Button>
              </Row>
         <Row className="below-nav justify-content-md-center ">
-            {this.state.logs ? <MainBoard logs={this.state.logs}></MainBoard> : <><Alert variant="info" className="below-nav"><Spinner animation="border" variant="primary"/>   Loading...</Alert></>}
+            {this.state.logs ? <MainBoard queues={this.state.queues} logs={this.state.logs}></MainBoard> : <><Alert variant="info" className="below-nav"><Spinner animation="border" variant="primary"/>   Loading...</Alert></>}
         </Row>
        
         </Container>

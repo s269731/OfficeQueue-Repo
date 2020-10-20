@@ -55,8 +55,9 @@ exports.getQueue = function(serviceTypeId) {
     const sql="SELECT COUNT(*) as value FROM tickets WHERE counter_id IS NULL AND service_type_id=?"
     const stmt = db.prepare(sql)
     const res = stmt.get([serviceTypeId])
-    if(res!==undefined)
-        resolve(res.value)
+    if(res!==undefined){
+        console.log(res)
+        resolve({queueLength:res.value, serviceTypeId:serviceTypeId})}
     else
         reject("There isn't a queue for that specific service type")})
 }
