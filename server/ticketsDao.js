@@ -50,6 +50,17 @@ function getPeopleNumberInQueue(serviceTypeId){
 
 }
 
+exports.getQueue = function(serviceTypeId) {
+    return new Promise((resolve, reject)=> {
+    const sql="SELECT COUNT(*) as value FROM tickets WHERE counter_id IS NULL AND service_type_id=?"
+    const stmt = db.prepare(sql)
+    const res = stmt.get([serviceTypeId])
+    if(res!==undefined)
+        resolve(res.value)
+    else
+        reject("There isn't a queue for that specific service type")})
+}
+
 exports.addTicket = function(serviceTypeId) {
     console.log("serviceTypeId passed as parameter to addTicket: "+serviceTypeId)
     return new Promise((resolve, reject) => {

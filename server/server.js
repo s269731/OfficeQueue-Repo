@@ -56,6 +56,18 @@ app.get('/api/counters/:id', (req, res) => {
        })
 })
 
+app.get('/api/queue/:id', (req, res) => {
+    ticketsDao.getQueue(req.params.id)
+        .then((queue) => {
+            res.json(queue)
+        })
+        .catch((err) => {
+            res.status(500).json({
+                errors: [{'msg': err}],
+            })
+        })
+})
+
 app.post('/api/counters', (req, res) => {
     countersDao.getNewTicketToServe(req.body.counterId)
         .then((counters) => {
@@ -81,3 +93,4 @@ app.post('/api/tickets', (req, res) => {
 })
 
 app.listen(PORT, ()=>console.log(`Server running on http://localhost:${PORT}/`));
+
