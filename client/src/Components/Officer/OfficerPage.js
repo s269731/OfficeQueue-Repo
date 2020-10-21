@@ -36,22 +36,29 @@ class OfficerPage extends Component {
 
   getCurrentTicketId = (counterValue) => {
     if (counterValue === null) {
+      
+      this.setState({clicked: null})
     }
+    else{ 
+    this.setState({currentCustomerValue: null});
     API
       .getCurrentTicketId(counterValue)
       .then((res) => {
         let Tnumber=this.props.typesOfServices[res.serviceTypeId-1].sign+res.currentTicketNumber;
      
         this.setState({currentCustomerValue: Tnumber})
+        this.setState({clicked: null})
       })
       .catch((err) => {
         this.setState({AuthErr: err.msg});
       });
   }
+}
 
   getNextTicketId = (counterValue) => {
-    if (counterValue === "") {
-      
+    if (counterValue === "" || counterValue === null  ) {
+      this.setState({currentCustomerValue: null});
+      this.setState({currentCustomerValue: "no ticket"});
     }
     else{
     API.getNextTicketId(counterValue)
@@ -59,6 +66,7 @@ class OfficerPage extends Component {
         let Tnumber=this.props.typesOfServices[res.serviceTypeId-1].sign+res.ticketNumber;
      
         this.setState({currentCustomerValue: Tnumber})
+        this.setState({clicked: null})
       })
       .catch((err) => {
         this.setState({AuthErr: err.msg});
@@ -69,6 +77,7 @@ class OfficerPage extends Component {
   onChangeCounter = (event) => {
     this.setState({counterValue: event.target.value},
        () => this.getCurrentTicketId(this.state.counterValue))
+       this.setState({clicked: null})
   };
 
 
@@ -126,13 +135,14 @@ class OfficerPage extends Component {
             <Button onClick={()=>{this.onChangeButton(this.state.counterValue)}} size="lg" variant="primary">NEXT</Button>
           </Card.Body>
           <Card.Footer >
+            
 
-          {this.state.clicked ==="clicked" && this.state.currentCustomerValue ===null 
-             && <Alert variant={"warning"}>
+          {this.state.clicked ==="clicked"  && this.state.currentCustomerValue===null
+          && this.state.counterValue !==""  && <Alert variant={"warning"}>
                There is no tickets to serve for this counter.
             </Alert>}
 
-          {this.state.counterValue ===""  && this.state.currentCustomerValue===undefined
+          {this.state.counterValue ==="" 
           && <Alert variant={"warning"}>
               Please choose counter
             </Alert>}
