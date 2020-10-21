@@ -1,11 +1,13 @@
 'use strict';
 
+const config = require('config')
 const db = require('./db')
 
 
 
 function computeWaitingTime(serviceTypeId) {
-    console.log("serviceTypeId passed as parameter to computeWaitingTime: "+serviceTypeId)
+    if(config.verbose)
+            console.log("serviceTypeId passed as parameter to computeWaitingTime: "+serviceTypeId)
     const sql ="SELECT counter_id FROM counters_service_types WHERE service_type_id=?" //get counterIDs that performs that service type
     //let arrayCounterIDservices
     let DifferentServicesSum=0
@@ -39,7 +41,8 @@ function computeWaitingTime(serviceTypeId) {
 
 
 function getPeopleNumberInQueue(serviceTypeId){
-        console.log("serviceTypeId passed as parameter to getPeopleNumberInQueue: "+serviceTypeId)
+        if(config.verbose)
+            console.log("serviceTypeId passed as parameter to getPeopleNumberInQueue: "+serviceTypeId)
         const sql="SELECT COUNT(*) as value FROM tickets WHERE counter_id IS NULL AND service_type_id=?"
         const stmt = db.prepare(sql)
         const res = stmt.get([serviceTypeId])
@@ -56,14 +59,16 @@ exports.getQueue = function(serviceTypeId) {
     const stmt = db.prepare(sql)
     const res = stmt.get([serviceTypeId])
     if(res!==undefined){
-        console.log(res)
+        if(config.verbose)
+            console.log(res)
         resolve({queueLength:res.value, serviceTypeId:serviceTypeId})}
     else
         reject("There isn't a queue for that specific service type")})
 }
 
 exports.addTicket = function(serviceTypeId) {
-    console.log("serviceTypeId passed as parameter to addTicket: "+serviceTypeId)
+    if(config.verbose)
+            console.log("serviceTypeId passed as parameter to addTicket: "+serviceTypeId)
     return new Promise((resolve, reject) => {
         const waitingTime = computeWaitingTime(serviceTypeId)
 

@@ -1,1 +1,4 @@
-{ "DBSOURCE": "./db/test.db" }
+{
+	"DBSOURCE": "./db/test.db",
+	"verbose": false
+}
