@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "npx nodemon server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "set NODE_ENV=test && npx mocha test/test.js"
   },
   "author": "Group 8",
   "license": "ISC",
@@ -14,6 +14,7 @@
     "better-sqlite3": "^7.1.1"
   },
   "devDependencies": {
+    "mocha": "^8.2.0",
     "nodemon": "^2.0.5"
   }
 }
