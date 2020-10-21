@@ -1,7 +1,7 @@
 import TicketPicker from './TicketPicker.js';
 import MainBoard from './MainBoard.js';
 import React,{Component} from 'react';
-import {Row,Container,Alert,Button,Spinner} from 'react-bootstrap';
+import {Row,Container,Alert,Button,Spinner, Navbar} from 'react-bootstrap';
 import API from '../Api.js';
 
 
@@ -72,7 +72,6 @@ class Home extends Component{
   }
     render(){
         return(<>
-        
         <Container fluid>
         {/*<Row className=" below-nav justify-content-md-center">
             <Button variant="info" onClick={(ev)=>this.updateMainScreen()}><svg width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-arrow-repeat" fill="currentColor" xmlns="http://www.w3.org/2000/svg">

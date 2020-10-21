@@ -79,7 +79,7 @@ class OfficerPage extends Component {
     return (
 
       <div>
-        <Navbars/> 
+        
         <Card
           style={{
           float: "left",
