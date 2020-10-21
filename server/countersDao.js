@@ -52,7 +52,7 @@ exports.getNewTicketToServe = function(counterId) {
         let sql = "DELETE FROM tickets WHERE counter_id = ?"
         db.prepare(sql).run(counterId)
 
-        sql = "select t.id, t.service_type_id, s.service_time, count(*) as tot from tickets t, service_types s \
+        sql = "select t.id, t.ticket_number,t.service_type_id, s.service_time, count(*) as tot from tickets t, service_types s \
             where t.counter_id is null and t.service_type_id = s.id and t.service_type_id in ( \
                     SELECT DISTINCT s.id FROM counters c, service_types s, counters_service_types cs \
                     WHERE cs.counter_id = ? and s.id = cs.service_type_id \
@@ -65,6 +65,6 @@ exports.getNewTicketToServe = function(counterId) {
         sql = "UPDATE tickets SET counter_id = ? WHERE id = ?"
         db.prepare(sql).run([counterId, rows.id])
 
-        resolve({"ticketId": rows.id, "serviceTypeId": rows.service_type_id})
+        resolve({"ticketId": rows.id,"ticketNumber":rows.ticket_number, "serviceTypeId": rows.service_type_id})
     })
 }

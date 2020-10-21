@@ -75,7 +75,7 @@ async function getCurrentTicketId(id){
     const response=await fetch(baseURL+url);
     const servicesJson=await response.json();
     if(response.ok){
-        return servicesJson.currentTicketId
+        return servicesJson
     }
     else{
         let err={status:response.status, errObj:servicesJson};

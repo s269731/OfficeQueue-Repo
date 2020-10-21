@@ -40,7 +40,9 @@ class OfficerPage extends Component {
     API
       .getCurrentTicketId(counterValue)
       .then((res) => {
-        this.setState({currentCustomerValue: res})
+        let Tnumber=this.props.typesOfServices[res.serviceTypeId-1].sign+res.currentTicketNumber;
+     
+        this.setState({currentCustomerValue: Tnumber})
       })
       .catch((err) => {
         this.setState({AuthErr: err.msg});
@@ -54,7 +56,9 @@ class OfficerPage extends Component {
     else{
     API.getNextTicketId(counterValue)
       .then((res) => {
-        this.setState({currentCustomerValue: res.ticketId})
+        let Tnumber=this.props.typesOfServices[res.serviceTypeId-1].sign+res.ticketNumber;
+     
+        this.setState({currentCustomerValue: Tnumber})
       })
       .catch((err) => {
         this.setState({AuthErr: err.msg});

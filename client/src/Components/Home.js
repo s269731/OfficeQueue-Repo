@@ -9,7 +9,7 @@ import API from '../Api.js';
 class Home extends Component{
     constructor(props){
         super(props);
-        this.state={isLoading:true,logs:[],queues:[],typesOfServices:[]};
+        this.state={isLoading:true,logs:[],queues:[]};
         this.createTicket=this.createTicket.bind(this);
     }
     createTicket(index){
@@ -17,7 +17,7 @@ class Home extends Component{
       API.requireNewTicket(index+1).then((res)=>{
         console.log(res)
         let num=res.ticketNumber;
-        let Tnumber=this.state.typesOfServices[res.serviceTypeId-1].sign+num.toString();
+        let Tnumber=this.props.typesOfServices[res.serviceTypeId-1].sign+num.toString();
      
         this.setState({newTicket:Tnumber,newTicketWaitingTime:res.waitingTime,serverErr:false});
         this.updateMainScreen()
@@ -36,7 +36,7 @@ class Home extends Component{
         let logs=res.map((l)=>{
           let curTic=" "
           if(l.currentTicketNumber && l.serviceTypeId){
-            curTic=this.state.typesOfServices[l.serviceTypeId-1].sign+l.currentTicketNumber.toString()
+            curTic=this.props.typesOfServices[l.serviceTypeId-1].sign+l.currentTicketNumber.toString()
           }
           return ({
           counterName:l.counterName,
@@ -47,8 +47,8 @@ class Home extends Component{
       }).catch((err)=>{console.log(err)
         this.setState({serverErr:true})})
 
-      Promise.all(this.state.typesOfServices.map((c)=>{return API.getQueue(c.id)})).then((res)=>{
-        res=res.map((r)=>{console.log(r);return ({serviceName:this.state.typesOfServices[r.serviceTypeId-1].name,serviceTypeId:r.serviceTypeId,length:r.queueLength})})
+      Promise.all(this.props.typesOfServices.map((c)=>{return API.getQueue(c.id)})).then((res)=>{
+        res=res.map((r)=>{console.log(r);return ({serviceName:this.props.typesOfServices[r.serviceTypeId-1].name,serviceTypeId:r.serviceTypeId,length:r.queueLength})})
         this.setState({queues:res,serverErr:false})
       }).catch((err)=>{console.log(err)
         this.setState({serverErr:true})})
@@ -56,19 +56,16 @@ class Home extends Component{
    }
 
    componentDidMount(){   
-    API.getAllServices().then((services)=>{   
-      this.setState({typesOfServices:services,serverErr:false,isLoading:false});
-      API.getCounters().then((counters)=>{
-        this.setState({counters:counters})
+       API.getCounters().then((counters)=>{
+        this.setState({counters:counters,isLoading:false})
         this.updateMainScreen()
+        this.interval = setInterval(() => this.updateMainScreen(), 3000);
       }).catch((err)=>{
         this.setState({serverErr:true});
       });
-    }).catch((err)=>{
-      this.setState({serverErr:true});
-    });
+    
 
-   this.interval = setInterval(() => this.updateMainScreen(), 1000);
+  
   }
     render(){
         return(<>
@@ -88,7 +85,7 @@ class Home extends Component{
         <Row className="below-nav   justify-content-md-center ">
             {(this.state.isLoading && !this.state.serverErr) ? <><Alert variant="primary" className="below-nav"><Spinner animation="border" variant="primary"/>   Loading...</Alert></>:<>
         {(this.state.newTicket) ? <><Alert variant="success">YOUR NUMBER IS : {this.state.newTicket}<Row className="justify-content-md-center "> Estimated waiting time: {Number(this.state.newTicketWaitingTime.toFixed(1))}</Row><Row className="justify-content-md-center "><Button variant="success" onClick={(ev)=>this.notNewTicket()}>OK</Button></Row></Alert></>
-           : <> {this.state.serverErr ? <Alert variant="danger">Server error!</Alert> : <TicketPicker options={this.state.typesOfServices} newTicket={this.createTicket}/>}</>}</>}
+           : <> {this.state.serverErr ? <Alert variant="danger">Server error!</Alert> : <TicketPicker options={this.props.typesOfServices} newTicket={this.createTicket}/>}</>}</>}
         </Row>
         </Container>    
         </>);

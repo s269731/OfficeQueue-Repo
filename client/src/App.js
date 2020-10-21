@@ -6,10 +6,21 @@ import Navbars from './Components/Officer/Navbar.js'
 import OfficerPage from './Components/Officer/OfficerPage.js';
 import {Switch} from 'react-router';
 import {withRouter,Redirect, Route} from 'react-router-dom';
+import API from './Api.js';
+import {Row,Container,Alert,Button,Spinner, Navbar} from 'react-bootstrap';
 
 class App extends React.Component{
   constructor(props){
     super(props)
+    this.state={typesOfServices:[],serverErr:false,isLoading:true};
+        
+  }
+  componentDidMount(){   
+    API.getAllServices().then((services)=>{   
+      this.setState({typesOfServices:services,serverErr:false,isLoading:false});
+    }).catch((err)=>{
+      this.setState({serverErr:true});
+    });
   }
   render(){
   return (
@@ -17,10 +28,14 @@ class App extends React.Component{
     <Navbars path={this.props.location.pathname}></Navbars>
     <Switch>
         <Route exact path='/home'>
-          <Home></Home>
+        {(this.state.isLoading && !this.state.serverErr) ? <><Alert variant="primary" className="below-nav"><Spinner animation="border" variant="primary"/>   Loading...</Alert></>:<>
+       
+          <Home typesOfServices={this.state.typesOfServices}></Home></>}
         </Route>
         <Route exact path='/officer'>
-          <OfficerPage></OfficerPage>
+          {(this.state.isLoading && !this.state.serverErr) ? <><Alert variant="primary" className="below-nav"><Spinner animation="border" variant="primary"/>   Loading...</Alert></>:<>
+       
+          <OfficerPage typesOfServices={this.state.typesOfServices}></OfficerPage></>}
         </Route>
         <Route><Redirect to='/home'/></Route>
         </Switch>
