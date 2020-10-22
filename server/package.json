@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "npx nodemon server.js",
-    "test": "npx jest test/test.js"
+    "test": "jest"
   },
   "author": "Group 8",
   "license": "ISC",
