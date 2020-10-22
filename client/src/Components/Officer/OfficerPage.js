@@ -63,7 +63,11 @@ class OfficerPage extends Component {
     else{
     API.getNextTicketId(counterValue)
       .then((res) => {
-        let Tnumber=this.props.typesOfServices[res.serviceTypeId-1].sign+res.ticketNumber;
+        console.log(res)
+         let Tnumber=""
+        if(res.ticketNumber){
+        Tnumber=this.props.typesOfServices[res.serviceTypeId-1].sign+res.ticketNumber;
+        }
      
         this.setState({currentCustomerValue: Tnumber})
         this.setState({clicked: null})

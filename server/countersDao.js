@@ -58,9 +58,9 @@ exports.getNewTicketToServe = function(counterId) {
                     WHERE cs.counter_id = ? and s.id = cs.service_type_id \
             ) group by t.service_type_id order by count(*) desc, service_time asc"
         const rows = db.prepare(sql).all(counterId)[0]
-
+                console.log(rows)
         if(!rows)
-        resolve({"ticketId":null})
+        resolve({"ticketId":null,"ticketNumber":null, "serviceTypeId": null})
 
         sql = "UPDATE tickets SET counter_id = ? WHERE id = ?"
         db.prepare(sql).run([counterId, rows.id])
