@@ -5,6 +5,7 @@ const ticketsDao = require('./ticketsDao')
 
 const PORT = 3001;
 const app = express();
+app.disable("x-powered-by");
 
 app.use(express.json());
 
