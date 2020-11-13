@@ -8,7 +8,7 @@ WORKDIR /usr/src/app
 # add `/app/node_modules/.bin` to $PATH
 ENV PATH /app/node_modules/.bin:$PATH
 
-COPY package*.json ./
+COPY package*.json /usr/src/app/
 
 #RUN npm uninstall
 #RUN npm cache clean --force
@@ -17,6 +17,7 @@ COPY package*.json ./
 
 RUN npm install
 
+RUN npm install express
 # Bundle app source
 COPY . .
 

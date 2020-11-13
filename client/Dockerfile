@@ -5,15 +5,14 @@ WORKDIR /reactapp
 # add `/app/node_modules/.bin` to $PATH
 ENV PATH /reactapp/node_modules/.bin:$PATH
 
-COPY package.json .
-
+COPY package*.json /reactapp/
 #RUN npm uninstall
 #RUN npm cache clean --force
 #RUN rm package-lock.json
 #RUN rm -rf node_modules
+RUN CI=true 
 
 RUN npm install
-
 # Bundle app source
 COPY . .
 
