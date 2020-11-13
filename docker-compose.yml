@@ -1,7 +1,7 @@
 version: "3"
 services:
     frontend:
-        
+        image: se2team8/office-queue:frontend
         build:
             context: ./client
             dockerfile: Dockerfile
@@ -12,8 +12,9 @@ services:
              -/reactapp/node_modules
         stdin_open: true
         tty: true
-    backend:
         
+    backend:
+        image: se2team8/office-queue:backend
         build:
             context: ./server
             dockerfile: Dockerfile
