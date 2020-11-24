@@ -1,5 +1,3 @@
 ## How to run in docker
-* 1- Clone the git repository in a your local folder
-* 2- In the root of your local folder, execute these commands:
-    * $ docker-compose pull
-    * $ docker-compose up
+*  - 1: (sudo) docker pull se2team8/office-queue:provaWrapper
+*  - 2: (sudo) docker run -p 3000:3000 -p 3001:3001 se2team8/office-queue:provaWrapper 
