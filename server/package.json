@@ -12,10 +12,12 @@
   "dependencies": {
     "better-sqlite3": "^7.1.1",
     "config": "^3.3.2",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "telegraf": "^3.38.0",
+    "telegraf-command-parts": "^1.0.3"
   },
   "devDependencies": {
     "jest": "^26.6.0",
-    "nodemon": "^2.0.5"
+    "nodemon": "^2.0.6"
   }
 }
