@@ -5,6 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "npx nodemon server.js",
+    "startbot": "npx nodemon bot.js",
     "test": "jest"
   },
   "author": "Group 8",
